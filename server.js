@@ -115,6 +115,7 @@ function startServer(crashed) {
 
 function stopServer() {
   if (running == false) return
+  started = false
   clearInterval(autosave)
   proc.stdin.write('stop\n')
 }
@@ -146,7 +147,8 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
   if (running) {
-    if (started) socket.emit('enable-stop')
+    if (!started) socket.emit('disable-stop')
+    console.log(started)
     socket.emit('disable-start')
   } else {
     socket.emit('disable-stop')
