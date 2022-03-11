@@ -11,6 +11,7 @@ let logs = 'Stopped\n'
 let running = false
 let autosave
 let stop = false
+let started = false
 rowcrash = 0
 
 if (!fs.existsSync('server')) fs.mkdirSync('server')
@@ -64,6 +65,7 @@ function startServer(crashed) {
     io.emit('send-logs', logs)
     if (data.includes('Done')) {
       console.log('Server started')
+      started = true
       io.emit('enable-stop')
       if (process.env.AUTOSAVE_INTERVAL == 0) {
         console.log('Autosave disabled')
@@ -144,7 +146,7 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
   if (running) {
-    socket.emit('enable-stop')
+    if (started) socket.emit('enable-stop')
     socket.emit('disable-start')
   } else {
     socket.emit('disable-stop')
