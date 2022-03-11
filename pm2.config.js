@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'MC Panel',
       script: './server.js',
-      kill_timeout: 30000,
+      kill_timeout: 60000,
     },
   ],
 }
