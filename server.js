@@ -61,6 +61,7 @@ function startServer(crashed) {
   )
   proc.stdout.on('data', (data) => {
     logs = logs + data.toString()
+    io.emit('send-logs', logs)
     if (data.includes('Done')) {
       console.log('Server started')
       io.emit('enable-stop')
@@ -80,6 +81,7 @@ function startServer(crashed) {
   proc.stderr.pipe(process.stderr)
   proc.stderr.on('data', (data) => {
     logs = logs + data.toString()
+    io.emit('send-logs', logs)
   })
   proc.stdin.setDefaultEncoding('utf8')
   proc.on('exit', (code) => {
@@ -140,10 +142,6 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 
-setInterval(() => {
-  io.emit('send-logs', logs)
-}, 1000)
-
 io.on('connection', (socket) => {
   if (running) {
     socket.emit('enable-stop')
@@ -152,6 +150,7 @@ io.on('connection', (socket) => {
     socket.emit('disable-stop')
     socket.emit('enable-start')
   }
+  socket.emit('send-logs', logs)
   socket.on('stop-server', () => {
     stopServer()
     socket.emit('disable-stop')
