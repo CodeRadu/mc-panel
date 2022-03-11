@@ -57,12 +57,13 @@ function startServer(crashed) {
   proc = spawn(
     'java',
     ['-Xmx2048M', '-Xms2048M', '-jar', 'server.jar', 'nogui'],
-    { cwd: 'server' }
+    { cwd: 'server', shell: true }
   )
   proc.stdout.on('data', (data) => {
     logs = logs + data.toString()
     if (data.includes('Done')) {
       console.log('Server started')
+      io.emit('enable-stop')
       if (process.env.AUTOSAVE_INTERVAL == 0) {
         console.log('Autosave disabled')
         return
@@ -97,7 +98,10 @@ function startServer(crashed) {
         'Server crashed more than 3 times in a row. Manual restart required\n'
       rowcrash = 0
     }
-    if (code == 0) clearTimeout(rowcrashTimeout)
+    if (code == 0) {
+      clearTimeout(rowcrashTimeout)
+      io.emit('enable-start')
+    }
     clearInterval(autosave)
   })
   proc.on('message', (msg) => {
@@ -136,15 +140,28 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 
+setInterval(() => {
+  io.emit('send-logs', logs)
+}, 1000)
+
 io.on('connection', (socket) => {
+  if (running) {
+    socket.emit('enable-stop')
+    socket.emit('disable-start')
+  } else {
+    socket.emit('disable-stop')
+    socket.emit('enable-start')
+  }
   socket.on('stop-server', () => {
     stopServer()
+    socket.emit('disable-stop')
   })
   socket.on('get-logs', () => {
     socket.emit('send-logs', logs)
   })
   socket.on('start-server', () => {
     startServer()
+    socket.emit('disable-start')
   })
   socket.on('send-cmd', (cmd) => {
     sendCmd(cmd)

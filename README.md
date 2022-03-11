@@ -5,6 +5,7 @@ This is my web panel for minecraft servers.
 ## Features
 
 - Autostart
+- Autorestart on crash
 - Autosave
 - Auto download server
 - Auto signs annoying eula

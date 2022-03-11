@@ -1,43 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minecraft server</title>
-  <script src="/socket.io/socket.io.js" defer></script>
-  <script src="/main.js" defer></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<body>
-  <style>
-    .terminal {
-      background-color: #DDDDDD;
-      width: 100%;
-      height: 700px;
-      max-height: 800px;
-      padding: 3em;
-      overflow: auto;
-    }
-    .buttons {
-      display: flex;
-      padding: 10px;
-    }
-  </style>
-  <div class="container">
-    <h3>Minecraft server</h3>
-    <div class="buttons">
-      <button onclick="startServer()" class="waves-effect waves-light btn">Start</button>
-      <button onclick="stopServer()" class="waves-effect waves-light btn">Stop</button>
-      <button onclick="shutDown()" class="waves-effect waves-light btn">Shut Down Host</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minecraft server</title>
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="/main.js" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+      integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <style>
+      .terminal {
+        background-color: #dddddd;
+        width: 100%;
+        height: 700px;
+        max-height: 800px;
+        padding: 3em;
+        overflow: auto;
+      }
+      .buttons {
+        display: flex;
+        padding: 10px;
+      }
+    </style>
+    <div class="container">
+      <h3>Minecraft server</h3>
+      <div class="buttons">
+        <button
+          onclick="startServer()"
+          class="waves-effect waves-light btn"
+          id="start"
+        >
+          Start
+        </button>
+        <button
+          onclick="stopServer()"
+          class="waves-effect waves-light btn"
+          id="stop"
+        >
+          Stop
+        </button>
+        <button onclick="shutDown()" class="waves-effect waves-light btn">
+          Shut Down Host
+        </button>
+      </div>
+      <div class="terminal"></div>
+      <div class="command">
+        <input type="text" placeholder="Command" id="cmdIn" />
+        <button onclick="sendCmd()" class="waves-effect waves-light btn">
+          Send
+        </button>
+      </div>
     </div>
-    <div class="terminal">
-        
-    </div>
-    <div class="command">
-      <input type="text" placeholder="Command" id="cmdIn">
-      <button onclick="sendCmd()" class="waves-effect waves-light btn">Send</button>
-    </div>
-  </div>
-</body>
+  </body>
 </html>
