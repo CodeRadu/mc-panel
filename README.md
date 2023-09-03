@@ -29,6 +29,7 @@ services:
     ports:
       - 1234:1234
       - 25565:25565/udp
+      - 25565:25565/udp
     stop_signal: SIGINT
     stop_grace_period: "30s"
 ```
