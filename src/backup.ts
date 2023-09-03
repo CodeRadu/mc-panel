@@ -36,7 +36,6 @@ const storage = new Storage({
   keyFilename: keyFileName
 })
 
-const bucket = storage.bucket(bucketName!)
 
 const sourceDirectories = (process.env.BACKUP_SOURCE_DIRECTORIES || 'server/world,server/world_nether,server/world_the_end').split(',');
 
@@ -64,6 +63,7 @@ export function createBackup() {
 
 async function uploadBackup(fileName: string) {
   try {
+    const bucket = storage.bucket(bucketName!)
     const file = bucket.file(fileName)
     await bucket.upload(`backups/${fileName}`, { destination: file })
     console.log("Backup uploaded")
