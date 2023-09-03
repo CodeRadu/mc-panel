@@ -10,7 +10,7 @@ This is my web panel for minecraft servers.
 - Auto download server
 - Auto signs annoying eula
 
-## Installation
+## Installation methods
 
 - Download the latest version from [GitHub](https://github.com/coderadu/mc-panel/releases)
 - Unzip the file
