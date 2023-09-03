@@ -1,5 +1,7 @@
 FROM node:16-bullseye
 
+LABEL org.opencontainers.image.source https://github.com/CodeRadu/mc-panel
+
 RUN apt update && apt upgrade -y
 RUN apt install -y openjdk-17-jdk
 
