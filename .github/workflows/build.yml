@@ -1,0 +1,54 @@
+name: Build docker images
+on: 
+  push:
+    branches: [main]
+
+env:
+  IMAGE: "ghcr.io/coderadu/mc-panel/mc-panel-{arch}"
+  BUILD_ARGS: ""
+
+jobs:
+  build:
+    name: Build image for ${{matrix.arch}}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [amd64, arm64]
+    steps:
+      - name: Check out Repository
+        uses: actions/checkout@v2
+      - name: 🏗 Set up QEMU
+        uses: docker/setup-qemu-action@v2.0.0
+      - name: Get package version
+        id: version
+        run: |
+          echo ::set-output name=version::$(jq -r .version package.json)
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2.0.0
+        if: env.BUILD_ARGS != '--test'
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Replace {arch} with ${{ matrix.arch }}
+        run: |
+          original=${{ env.IMAGE }}
+          img=$(echo "${original//\{arch\}/${{ matrix.arch }}}")
+          echo "IMAGE=${img,,}" >> $GITHUB_ENV
+      - name: Build for ${{ matrix.arch }}
+        uses: docker/build-push-action@v3.1.1
+        with:
+          load: true
+          tags: |
+            ${{ env.IMAGE }}:${{ steps.version.outputs.version }}
+            ${{ env.IMAGE }}:latest
+          context: .
+          file: ./Dockerfile
+          platforms: ${{ matrix.arch }}
+          build-args: |
+            BUILD_ARCH=${{ matrix.arch }}
+            BUILD_REPOSITORY=${{ github.repository }}
+      - name: Push
+        if: env.BUILD_ARGS != '--test'
+        run: |
+          docker push ${{ env.IMAGE }}:${{ steps.version.outputs.version }}
