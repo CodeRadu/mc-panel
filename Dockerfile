@@ -21,7 +21,7 @@ RUN apt install -y openjdk-17-jdk
 
 WORKDIR /server
 COPY --from=builder /server/backend/package.json .
-RUN npm install
+RUN npm install -d
 COPY --from=builder /server/backend/dist .
 COPY --from=builder /server/frontend/dist ./frontend
 

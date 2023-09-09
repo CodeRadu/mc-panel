@@ -22,7 +22,11 @@ let rowcrash = 0
 
 const app = express()
 const server = http.createServer(app)
-const io = new socketIo.Server(server)
+const io = new socketIo.Server(server, {
+  cors: {
+    origin: 'http://localhost:5173',
+  },
+})
 
 if (!fs.existsSync('server')) fs.mkdirSync('server')
 if (!fs.existsSync('backups')) fs.mkdirSync('backups')
@@ -216,7 +220,6 @@ function sendCmd(cmd: string) {
 
 function shutDownHost() {
   stop = true
-  console.log('Host shutting down')
   stopServer()
   console.log('Stopping server if running')
   //wait until server stopped
@@ -227,7 +230,6 @@ function shutDownHost() {
 
 process.on('exit', () => console.log('Exiting'))
 
-app.set('view engine', 'ejs')
 app.use(serveStatic('frontend'))
 
 // app.get('/', (req, res) => {
@@ -262,16 +264,9 @@ io.sockets.on('connection', (socket: Socket) => {
   })
 })
 
-console.log('Host running')
+console.log(`Listening on port ${process.env.INTERFACE_PORT || 1234}`)
 
 server.listen(process.env.INTERFACE_PORT || 1234)
-
-process.on('message', (msg) => {
-  if (msg == 'shutdown') {
-    console.log('Shutdown message received. Please wait')
-    shutDownHost()
-  }
-})
 
 process.on('SIGINT', () => {
   console.log('Received SIGINT')
