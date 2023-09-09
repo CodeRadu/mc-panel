@@ -24,12 +24,18 @@ if (
   error = true
 }
 
-if (projectId == undefined) {
+if (
+  parseFloat(process.env.BACKUP_INTERVAL as string) > 0 &&
+  projectId == undefined
+) {
   console.error('ERROR: Backups are enabled, but no project id specified')
   error = true
 }
 
-if (bucketName == undefined) {
+if (
+  parseFloat(process.env.BACKUP_INTERVAL as string) > 0 &&
+  bucketName == undefined
+) {
   console.error('ERROR: Backups are enabled, but no bucket name specified')
   error = true
 }

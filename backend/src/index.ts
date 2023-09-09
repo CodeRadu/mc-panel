@@ -4,11 +4,12 @@ import http from 'http'
 import socketIo, { Socket } from 'socket.io'
 import https from 'https'
 import { spawn, ChildProcess } from 'child_process'
+import serveStatic from 'serve-static'
 
 import dotenv from 'dotenv'
 import { createBackup } from './backup'
 
-dotenv.config({ path: 'config/config.env' })
+dotenv.config({ path: '../config/config.env' })
 
 let proc: ChildProcess | undefined
 let logs = 'Stopped\n'
@@ -136,9 +137,12 @@ function startServer(crashed?: boolean) {
       if (autosaveInterval > 0) {
         console.log(`Autosaving every ${autosaveInterval} minutes`)
         logs += `HOST: Autosaving every ${autosaveInterval} minutes\n`
-        autosave = setInterval(() => {
-          sendCmd('save-all')
-        }, autosaveInterval * 1000 * 60)
+        autosave = setInterval(
+          () => {
+            sendCmd('save-all')
+          },
+          autosaveInterval * 1000 * 60,
+        )
       } else {
         console.log('Autosave disabled')
       }
@@ -196,10 +200,6 @@ function startServer(crashed?: boolean) {
     if (autosave) clearInterval(autosave)
     if (backup) clearInterval(backup)
   })
-
-  proc.on('message', (msg) => {
-    console.log(msg)
-  })
 }
 
 function stopServer() {
@@ -228,11 +228,11 @@ function shutDownHost() {
 process.on('exit', () => console.log('Exiting'))
 
 app.set('view engine', 'ejs')
-app.use(express.static('public'))
+app.use(serveStatic('frontend'))
 
-app.get('/', (req, res) => {
-  res.render('index')
-})
+// app.get('/', (req, res) => {
+//   res.render('index')
+// })
 
 io.sockets.on('connection', (socket: Socket) => {
   if (running) {
