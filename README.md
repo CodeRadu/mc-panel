@@ -31,7 +31,7 @@ services:
       - 25565:25565/tcp
       - 25565:25565/udp
     stop_signal: SIGINT
-    stop_grace_period: "30s"
+    stop_grace_period: '30s'
 ```
 
 - Create a config folder and a config.env file in it with this content
