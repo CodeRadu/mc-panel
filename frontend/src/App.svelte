@@ -1,18 +1,34 @@
 <script lang="ts">
+  import { Terminal } from 'xterm'
+  import { FitAddon } from 'xterm-addon-fit'
   import { io } from './lib/socketio'
+  import { onMount } from 'svelte'
+  import 'xterm/css/xterm.css'
   let terminal: HTMLDivElement
   let cmd: HTMLInputElement
   let start: HTMLButtonElement
   let stop: HTMLButtonElement
 
-  let logs = ''
+  const term = new Terminal({
+    theme: {
+      background: '#333333',
+      foreground: '#dddddd',
+      cursor: '#aaaaaa',
+    },
+  })
+  const fitAddon = new FitAddon()
+  term.loadAddon(fitAddon)
+  onMount(() => {
+    term.open(terminal)
+    fitAddon.fit()
+    term.onData((e) => {
+      io.emit('write', e)
+    })
+  })
 
   io.on('send-logs', (log) => {
-    if (log != logs) {
-      terminal.innerText = log
-      terminal.scrollTo(0, terminal.scrollHeight)
-      logs = log
-    }
+    console.log(log)
+    term.write(log)
   })
 
   io.on('enable-start', () => {
@@ -43,12 +59,6 @@
     io.emit('start-server')
   }
 
-  function sendCmd() {
-    if (!cmd.value) return
-    io.emit('send-cmd', cmd.value)
-    cmd.value = ''
-  }
-
   function shutDown() {
     io.emit('shut-down')
   }
@@ -77,11 +87,5 @@
       Shut Down Host
     </button>
   </div>
-  <div class="terminal" bind:this={terminal} />
-  <div class="command">
-    <input type="text" placeholder="Command" bind:this={cmd} />
-    <button on:click={sendCmd} class="waves-effect waves-light btn">
-      Send
-    </button>
-  </div>
+  <div bind:this={terminal} />
 </div>
