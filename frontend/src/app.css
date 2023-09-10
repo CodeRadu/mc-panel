@@ -1,0 +1,17 @@
+body {
+  background-color: #555555;
+  color: white;
+}
+
+.terminal {
+  background-color: #dddddd;
+  width: 100%;
+  height: 700px;
+  max-height: 800px;
+  padding: 3em;
+  overflow: auto;
+}
+.buttons {
+  display: flex;
+  padding: 10px;
+}

@@ -4,3 +4,5 @@ config/service-account.json
 node_modules
 dist
 backups
+.turbo
+.pnpm-store
