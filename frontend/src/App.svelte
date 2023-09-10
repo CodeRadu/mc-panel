@@ -48,7 +48,7 @@
   })
 
   io.on('disconnect', () => {
-    terminal.innerText = 'Disconnected from host'
+    term.write('Disconnected from host \r\n')
   })
 
   function stopServer() {
