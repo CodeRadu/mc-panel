@@ -13,7 +13,8 @@
     "vscode": {
       "extensions": [
         "esbenp.prettier-vscode",
-        "svelte.svelte-vscode"
+        "svelte.svelte-vscode",
+        "Prisma.prisma"
       ],
       "settings": {
         "editor.formatOnPaste": true,

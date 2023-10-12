@@ -10,4 +10,14 @@ services:
       - 25565:25565/tcp
       - 25565:25565/udp
     stop_signal: SIGINT
-    stop_grace_period: "30s"
+    stop_grace_period: '30s'
+    env_file: .env
+  postgres:
+    image: postgres:bookworm
+    volumes:
+      - data:/var/lib/postgresql/data/pgdata
+    environment:
+      - POSTGRES_PASSWORD=mc-panel
+      - PGDATA=/var/lib/postgresql/data/pgdata
+volumes:
+  data: {}
