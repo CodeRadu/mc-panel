@@ -31,7 +31,7 @@ router.get(
   validateAuthTokenMiddleware,
   validateUserIsAdminMiddleware,
   async (req: Request, res: Response) => {
-    const userId = req.params.userId
+    const userId = Number(req.params.userId)
     const user = await getUserById(userId)
     if (!user) {
       res.sendStatus(404)
@@ -44,7 +44,7 @@ router.get(
 router.post('/', async (req: Request, res: Response) => {
   const { userName, name, password } = req.body
 
-  if (!userName || !password) {
+  if (!userName || !password || !name) {
     return res
       .status(400)
       .json({ error: 'userName, name and password,  are required' })

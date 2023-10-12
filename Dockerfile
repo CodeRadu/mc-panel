@@ -21,8 +21,11 @@ RUN apt install -y openjdk-17-jdk
 
 WORKDIR /server
 COPY --from=builder /server/backend/package.json .
-RUN npm install -d
+RUN npm install -d --omit=dev
+RUN npm install -g prisma
+COPY --from=builder /server/backend/prisma .
+COPY --from=builder /server/scripts/run.sh .
 COPY --from=builder /server/backend/dist .
 COPY --from=builder /server/frontend/dist ./frontend
 
-ENTRYPOINT ["node", "/server/index.js"]
+ENTRYPOINT ["/server/run.sh"]

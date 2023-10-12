@@ -11,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id           String      @id @default(uuid())
+  id           Int         @id @default(autoincrement())
   userName     String      @unique
   name         String
   passwordHash String
@@ -22,15 +22,15 @@ model User {
 
 model AuthToken {
   id     Int    @id @default(autoincrement())
-  token  String
+  token  String @unique
   User   User   @relation(fields: [userId], references: [id])
-  userId String
+  userId Int
 }
 
 model Server {
   id               String  @id @default(uuid())
   User             User    @relation(fields: [userId], references: [id])
-  userId           String
+  userId           Int
   name             String
   description      String?
   wasRunning       Boolean

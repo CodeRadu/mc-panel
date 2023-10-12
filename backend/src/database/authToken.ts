@@ -21,16 +21,23 @@ export async function validateAuthTokenMiddleware(
   if (!token) {
     return res.sendStatus(401)
   }
+  const prisma = getClient()
+  const foundToken = await prisma.authToken.findUnique({
+    where: { token },
+  })
+  if (!foundToken) {
+    return res.sendStatus(401)
+  }
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) {
-      return res.sendStatus(403)
+      return res.sendStatus(401)
     }
     req.user = user as JwtPayload
     next()
   })
 }
 
-export async function getAuthTokenByUserId(userId: string) {
+export async function getAuthTokenByUserId(userId: number) {
   const prisma = getClient()
 
   try {
@@ -43,7 +50,7 @@ export async function getAuthTokenByUserId(userId: string) {
   }
 }
 
-export async function deleteAuthTokenByUserId(userId: string) {
+export async function deleteAuthTokenByUserId(userId: number) {
   const prisma = getClient()
 
   try {
@@ -55,14 +62,27 @@ export async function deleteAuthTokenByUserId(userId: string) {
   }
 }
 
-export async function deleteAuthTokenById(authTokenId: number) {
+export async function deleteAuthTokenById(authToken: string) {
   const prisma = getClient()
 
   try {
     await prisma.authToken.delete({
-      where: { id: authTokenId },
+      where: { token: authToken },
     })
   } catch (error) {
     throw new Error('Error deleting auth token')
+  }
+}
+
+export async function getUserTokens(userId: number) {
+  const prisma = getClient()
+
+  try {
+    const tokens = await prisma.authToken.findMany({
+      where: { userId },
+    })
+    return tokens
+  } catch (error) {
+    throw new Error('Error fetching auth tokens')
   }
 }
