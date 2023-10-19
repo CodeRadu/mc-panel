@@ -37,3 +37,17 @@ export async function createServer({
     throw new Error('Error creating server:' + (error as Error).message)
   }
 }
+
+export async function getServerById(id: number): Promise<Server | null> {
+  const prisma = getClient()
+  try {
+    const server = await prisma.server.findUnique({
+      where: {
+        id: id,
+      },
+    })
+    return server
+  } catch (error) {
+    throw new Error('Error getting server:' + (error as Error).message)
+  }
+}

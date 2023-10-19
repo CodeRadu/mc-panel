@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsnd --watch config/config.env --exit-child -- src/index.ts",
+    "dev": "tsnd --watch config/config.env -- src/index.ts",
     "start": "node dist/index.js"
   },
   "keywords": [],

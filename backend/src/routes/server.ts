@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express'
 import { validateAuthTokenMiddleware } from '../database/authToken'
-import { createVolume } from '../docker'
-import { createServer, getUserById } from '../database'
+import { startServer, createVolume } from '../docker'
+import { createServer, getServerById, getUserById } from '../database'
 import { lowerCase } from 'lodash'
 
 const router = Router()
@@ -36,5 +36,15 @@ router.post(
     res.json(server)
   },
 )
+
+router.put('/:id/start', validateAuthTokenMiddleware, async (req, res) => {
+  const { id } = req.params
+  const server = await getServerById(Number(id))
+  if (!server) {
+    return res.status(404).json({ error: 'server not found' })
+  }
+  startServer(Number(id), server.memoryAllocation, server.volumeName)
+  res.json({ status: 'ok' })
+})
 
 export default router
