@@ -16,9 +16,11 @@
     "@prisma/client": "5.4.2",
     "archiver": "^6.0.0",
     "bcrypt": "^5.1.1",
+    "dockerode": "^4.0.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
     "node-pty": "^1.0.0",
     "serve-static": "^1.15.0",
     "socket.io": "^4.4.0"
@@ -26,8 +28,10 @@
   "devDependencies": {
     "@types/archiver": "^5.3.2",
     "@types/bcrypt": "^5.0.0",
+    "@types/dockerode": "^3.3.20",
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.3",
+    "@types/lodash": "^4.14.199",
     "@types/serve-static": "^1.15.2",
     "prisma": "^5.4.2",
     "ts-node-dev": "^2.0.0",

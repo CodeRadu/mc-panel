@@ -9,3 +9,4 @@ export function getClient(): PrismaClient {
 export const connect = () => client.$connect()
 export * from './user'
 export * from './authToken'
+export * from './server'
