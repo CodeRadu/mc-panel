@@ -1,10 +1,10 @@
 import { z } from 'zod'
 
 const envSchema = z.object({
-  MEMORY_ALLOCATION: z.number().optional().default(1024),
-  AUTOSAVE_INTERVAL: z.number().optional().default(5),
-  AUTOSTART: z.boolean().optional().default(true),
-  BACKUP_INTERVAL: z.number().optional().default(0), // disabled
+  MEMORY_ALLOCATION: z.string().optional().default('1024'),
+  AUTOSAVE_INTERVAL: z.string().optional().default('5'),
+  AUTOSTART: z.string().optional().default('true'),
+  BACKUP_INTERVAL: z.string().optional().default('0'), // disabled
   BACKUP_PROJECT_ID: z.string().optional(),
   BACKUP_STORAGE_BUCKET: z.string().optional(),
   BACKUP_FILENAME: z.string().optional().default('backup-{date}.zip'),

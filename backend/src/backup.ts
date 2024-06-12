@@ -10,10 +10,12 @@ const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
 const dynamicBackupFilename = env.BACKUP_FILENAME
 const projectId = env.BACKUP_PROJECT_ID
 
+const BACKUP_INTERVAL = parseFloat(env.BACKUP_INTERVAL)
+
 let error = false
 
 if (
-  env.BACKUP_INTERVAL > 0 &&
+  BACKUP_INTERVAL > 0 &&
   !fs.existsSync('config/service-account.json')
 ) {
   console.error(
@@ -23,7 +25,7 @@ if (
 }
 
 if (
-  env.BACKUP_INTERVAL > 0 &&
+  BACKUP_INTERVAL > 0 &&
   projectId == undefined
 ) {
   console.error('ERROR: Backups are enabled, but no project id specified')
@@ -31,7 +33,7 @@ if (
 }
 
 if (
-  env.BACKUP_INTERVAL > 0 &&
+  BACKUP_INTERVAL > 0 &&
   bucketName == undefined
 ) {
   console.error('ERROR: Backups are enabled, but no bucket name specified')

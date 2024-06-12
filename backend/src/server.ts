@@ -60,8 +60,8 @@ export function startServer(crashed?: boolean) {
       console.log('Server started')
       status = Status.STARTED
       ws.enableStop()
-      const autosaveInterval = env.AUTOSAVE_INTERVAL
-      const backupInterval = env.BACKUP_INTERVAL
+      const autosaveInterval = parseFloat(env.AUTOSAVE_INTERVAL)
+      const backupInterval = parseFloat(env.BACKUP_INTERVAL)
       if (autosaveInterval > 0) {
         console.log(`Autosaving every ${autosaveInterval} minutes`)
         logs += `HOST: Autosaving every ${autosaveInterval} minutes\n\r`

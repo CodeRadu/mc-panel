@@ -17,7 +17,7 @@ if (!fs.existsSync('backups')) fs.mkdirSync('backups')
 if (!fs.existsSync('server/eula.txt'))
   fs.writeFileSync('server/eula.txt', 'eula=true', 'utf8')
 
-if (env.AUTOSTART === true) {
+if (env.AUTOSTART === 'true') {
   console.log('Autostarting server')
   srv.startServer()
 }
