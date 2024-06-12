@@ -96,7 +96,7 @@ export function startServer(crashed?: boolean) {
     logs = logs + 'Exited with code ' + code + '\n\r'
     ws.sendDataToClients('Exited with code ' + code + '\n\r')
 
-    if (code != 0 && rowcrash < 3 && !stop) {
+    if (code != 0 && rowcrash < 3) {
       startServer(true)
       rowcrash++
     } else if (rowcrash >= 3) {
