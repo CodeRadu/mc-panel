@@ -58,6 +58,7 @@ export function startServer(crashed?: boolean) {
     ws.sendDataToClients(data)
     if (data.includes('Done')) {
       console.log('Server started')
+      status = Status.STARTED
       ws.enableStop()
       const autosaveInterval = env.AUTOSAVE_INTERVAL
       const backupInterval = env.BACKUP_INTERVAL
@@ -98,8 +99,10 @@ export function startServer(crashed?: boolean) {
 
     if (code != 0 && rowcrash < 3) {
       startServer(true)
+      status = Status.STARTING
       rowcrash++
     } else if (rowcrash >= 3) {
+      status = Status.STOPPED
       console.error(
         'Server crashed more than 3 times in a row. Manual restart required',
       )
@@ -111,6 +114,7 @@ export function startServer(crashed?: boolean) {
 
     if (code == 0) {
       clearTimeout(rowcrashTimeout)
+      status = Status.STOPPED
       ws.enableStart()
     }
 
@@ -124,6 +128,7 @@ export function stopServer() {
   if (autosave) clearInterval(autosave)
   if (backup) clearInterval(backup)
   proc?.write('stop\n\r')
+  status = Status.STOPPING
 }
 
 export function sendCmd(cmd: string) {
