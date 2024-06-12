@@ -5,7 +5,6 @@
   import { onMount } from 'svelte'
   import 'xterm/css/xterm.css'
   let terminal: HTMLDivElement
-  let cmd: HTMLInputElement
   let start: HTMLButtonElement
   let stop: HTMLButtonElement
 
@@ -58,10 +57,6 @@
   function startServer() {
     io.emit('start-server')
   }
-
-  function shutDown() {
-    io.emit('shut-down')
-  }
 </script>
 
 <div class="container">
@@ -82,9 +77,6 @@
       bind:this={stop}
     >
       Stop
-    </button>
-    <button on:click={shutDown} class="waves-effect waves-light btn">
-      Shut Down Host
     </button>
   </div>
   <div bind:this={terminal} />

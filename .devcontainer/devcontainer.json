@@ -1,20 +1,14 @@
 {
   "name": "MC Panel devcontaner",
-  "image": "node:16-bullseye",
-  "appPort": [
-    "1234:1234",
-    "5173:5173"
-  ],
-  "postStartCommand": "apt update && apt install -y openjdk-17-jdk && npm i -g pnpm",
+  "image": "node:20-bookworm",
+  "appPort": ["1234:1234", "5173:5173"],
+  "postStartCommand": "./.devcontainer/postStart.sh",
   "containerEnv": {
     "WORKSPACE_DIRECTORY": "${containerWorkspaceFolder}"
   },
   "customizations": {
     "vscode": {
-      "extensions": [
-        "esbenp.prettier-vscode",
-        "svelte.svelte-vscode"
-      ],
+      "extensions": ["esbenp.prettier-vscode", "svelte.svelte-vscode"],
       "settings": {
         "editor.formatOnPaste": true,
         "editor.formatOnSave": true,

@@ -39,9 +39,6 @@ services:
 ```conf
 MEMORY_ALLOCATION=1024 #Memory allocation in MB
 AUTOSAVE_INTERVAL=5 #Autosave interval in minutes (eg. 1, 5, 0.5) 0=disabled
-DOWNLOAD_PAPERMC=true #Auto download papermc server
-PAPERMC_DOWNLOAD_VERSION=1.20.1 #Papermc server version
-PAPERMC_DOWNLOAD_BUILD=169 #Papermc server build
 AUTOSTART=true #Auto start the server on host start
 BACKUP_INTERVAL=0 #Backup interval (to gcp storage bucket) in minutes, 0=disabled
 BACKUP_PROJECT_ID= #The project id of the storage bucket
