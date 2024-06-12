@@ -14,10 +14,6 @@ jobs:
     strategy:
       matrix:
         arch: [amd64, arm64]
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
     steps:
       - name: Check out Repository
         uses: actions/checkout@v2
@@ -33,7 +29,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Replace {arch} with ${{ matrix.arch }}
         run: |
           original=${{ env.IMAGE }}
