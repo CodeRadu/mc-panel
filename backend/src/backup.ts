@@ -1,21 +1,19 @@
 import fs from 'fs'
 import archiver from 'archiver'
 import { Storage } from '@google-cloud/storage'
-import dotenv from 'dotenv'
-
-dotenv.config({ path: 'config/config.env' })
+import env from './env'
 
 const keyFileName = 'config/service-account.json'
 
-const bucketName = process.env.BACKUP_STORAGE_BUCKET
+const bucketName = env.BACKUP_STORAGE_BUCKET
 const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
-const dynamicBackupFilename = process.env.BACKUP_FILENAME || 'backup-{date}.zip'
-const projectId = process.env.BACKUP_PROJECT_ID
+const dynamicBackupFilename = env.BACKUP_FILENAME
+const projectId = env.BACKUP_PROJECT_ID
 
 let error = false
 
 if (
-  parseFloat(process.env.BACKUP_INTERVAL as string) > 0 &&
+  env.BACKUP_INTERVAL > 0 &&
   !fs.existsSync('config/service-account.json')
 ) {
   console.error(
@@ -25,7 +23,7 @@ if (
 }
 
 if (
-  parseFloat(process.env.BACKUP_INTERVAL as string) > 0 &&
+  env.BACKUP_INTERVAL > 0 &&
   projectId == undefined
 ) {
   console.error('ERROR: Backups are enabled, but no project id specified')
@@ -33,7 +31,7 @@ if (
 }
 
 if (
-  parseFloat(process.env.BACKUP_INTERVAL as string) > 0 &&
+  env.BACKUP_INTERVAL > 0 &&
   bucketName == undefined
 ) {
   console.error('ERROR: Backups are enabled, but no bucket name specified')
@@ -48,8 +46,7 @@ const storage = new Storage({
 })
 
 const sourceDirectories = (
-  process.env.BACKUP_SOURCE_DIRECTORIES ||
-  'server/world,server/world_nether,server/world_the_end'
+  env.BACKUP_SOURCE_DIRECTORIES
 ).split(',')
 
 export function createBackup() {
