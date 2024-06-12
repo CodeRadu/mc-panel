@@ -23,9 +23,6 @@ importers:
       archiver:
         specifier: ^6.0.0
         version: 6.0.1
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.3.1
       express:
         specifier: ^4.17.1
         version: 4.18.2
@@ -593,10 +590,6 @@ packages:
   diff@4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
     engines: {node: '>=0.3.1'}
-
-  dotenv@16.3.1:
-    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
-    engines: {node: '>=12'}
 
   duplexify@4.1.2:
     resolution: {integrity: sha512-fz3OjcNCHmRP12MJoZMPglx8m4rrFP8rovnk4vT8Fs+aonZoCwGg10dSsQsfP/E62eZcPTMSMP6686fu9Qlqtw==}
@@ -1903,8 +1896,6 @@ snapshots:
   detect-indent@6.1.0: {}
 
   diff@4.0.2: {}
-
-  dotenv@16.3.1: {}
 
   duplexify@4.1.2:
     dependencies:

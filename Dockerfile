@@ -1,4 +1,4 @@
-FROM node:16-bullseye as builder
+FROM node:20-bookworm as builder
 
 LABEL org.opencontainers.image.source https://github.com/CodeRadu/mc-panel
 
@@ -14,10 +14,11 @@ RUN pnpm install
 COPY . .
 RUN pnpm run build
 
-FROM node:16-bullseye as runner
+FROM builder as runner
 
 RUN apt update && apt upgrade -y
-RUN apt install -y openjdk-17-jdk
+ADD https://apt.corretto.aws/pool/main/j/java-21-amazon-corretto-jdk/java-21-amazon-corretto-jdk_21.0.3.9-1_amd64.deb /tmp/java-21.deb
+RUN apt install -y /tmp/java-21.deb libxi6 libxtst6 libxrender1
 
 WORKDIR /server
 COPY --from=builder /server/backend/package.json .
