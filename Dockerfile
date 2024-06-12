@@ -15,9 +15,10 @@ COPY . .
 RUN pnpm run build
 
 FROM builder as runner
+ARG BUILD_ARCH
 
 RUN apt update && apt upgrade -y
-ADD https://apt.corretto.aws/pool/main/j/java-21-amazon-corretto-jdk/java-21-amazon-corretto-jdk_21.0.3.9-1_amd64.deb /tmp/java-21.deb
+ADD https://apt.corretto.aws/pool/main/j/java-21-amazon-corretto-jdk/java-21-amazon-corretto-jdk_21.0.3.9-1_${BUILD_ARCH}.deb /tmp/java-21.deb
 RUN apt install -y /tmp/java-21.deb libxi6 libxtst6 libxrender1
 
 WORKDIR /server
