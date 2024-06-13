@@ -14,7 +14,7 @@ RUN pnpm install
 COPY . .
 RUN pnpm run build
 
-FROM builder as runner
+FROM node:20-bookworm as runner
 ARG BUILD_ARCH
 
 RUN apt update && apt upgrade -y
