@@ -1,4 +1,4 @@
-import { IPty, spawn } from "node-pty"
+import { IPty, spawn } from "@lydell/node-pty"
 import env from "./env"
 import { createBackup } from "./backup"
 import { ws } from "."
